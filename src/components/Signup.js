@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as actions from '../actions';
-import { Input, Form, Label } from 'semantic-ui-react'
+import { Input, Form, Label, Dropdown } from 'semantic-ui-react'
 import Fetcher from '../fetcher'
 
 class Signup extends React.Component {
@@ -22,28 +22,38 @@ class Signup extends React.Component {
 
   }
 
-  handleChange = e => {
-    if (e.target.name === 'address') {
-      this.getSuggestions(e.target.value)
+  handleChange = (e, data) => {
+    console.log(e, data);
+    if (data.name === 'address') {
+      const newFields = { ...this.state.fields, address: data.value }
+      this.setState({ fields: newFields })
+    }else{
+      const newFields = { ...this.state.fields, [e.target.name]: e.target.value };
+      this.setState({ fields: newFields });
     }
-    const newFields = { ...this.state.fields, [e.target.name]: e.target.value };
-    this.setState({ fields: newFields });
   };
 
-  getSuggestions = address => {
+  getSuggestions = (e, data) => {
+    let address = data.searchQuery
+    console.log(address.replace('', '+'));
     Fetcher.fetchSuggestions(address.replace('', '+')).then(list => this.setState({suggestions: list.suggestions ? list.suggestions : []}))
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { fields: { username, password, name, email, address } } = this.state;
     this.props.createUser(username, password, name, email, address);
   };
 
+  customSearch = (options, query) => {
+    // const re = new RegExp(_.escapeRegExp(query))
+    return options
+  }
+
 
   render() {
     console.log(this.state);
-    const suggestions = this.state.suggestions.map(s => <option value={s.text} />)
+    const suggestions = this.state.suggestions.map(s => ({ key: s.text, value: s.text, text: s.text }))
     console.log(this.state);
     const { fields } = this.state;
     return (
@@ -52,17 +62,18 @@ class Signup extends React.Component {
         <div className="ui form">
             <Form onSubmit={this.handleSubmit}>
             <Form.Field>
-              <Input fluid
-              list='languages'
+              <Dropdown fluid
+              selection
+              options={suggestions}
               placeholder="address"
               name="address"
               value={fields.address}
+              onSearchChange={this.getSuggestions}
               onChange={this.handleChange}
               loading={this.props.fetching}
-              label={'Address'}/>
-              <datalist id='languages'>
-              {suggestions}
-              </datalist>
+              label={'Address'}
+              search={this.customSearch}/>
+
             {this.props.errors['address'] ? <Label basic color='red' pointing>{this.props.errors['address'][0]}</Label> : null}
             </Form.Field>
             <Form.Field>

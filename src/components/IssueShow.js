@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import * as actions from '../actions';
 import { Grid } from 'semantic-ui-react'
 import { Header, Button } from 'semantic-ui-react'
-// import IssueList from './IssueList'
+import ViewList from './ViewList'
 import VoteModal from './VoteModal'
 import {Doughnut, Bar} from 'react-chartjs-2';
 
@@ -29,8 +29,10 @@ class IssueShow extends React.Component {
   //   this.setState({voted: this.props.user.issues.find(i => i.issue.id === this.props.issue.id)})
   // }
 
-  handleClick = (e) => {
-    if (!this.state.open && e.length > 0) {
+  handleModal = (e) => {
+    if (!this.state.open && e.view) {
+      this.setState({open: true, view: e.view})
+    } else if (!this.state.open && e.length > 0) {
       this.setState({open: true, view: this.props.issue.views[e[0]._index]})
     }else{
       this.setState({open: false})
@@ -72,12 +74,18 @@ class IssueShow extends React.Component {
 
     return (
       <Grid.Row>
-        <Grid.Column width={12}>
+        <Grid.Column width={16}>
           <Header size={'huge'} textAlign={'center'}>{this.props.issue.title}</Header>
-          <Header size={'large'} textAlign={'center'}>{this.props.voted ? 'Your stance: '+ this.props.voted.view.description : `Click a stance to declare your position on this issue`}</Header>
-          <Doughnut getElementAtEvent ={this.handleClick} data={donutData}/>
-          <VoteModal onClose={this.handleClick} open={this.state.open} issue={this.props.issue} view={this.state.view} voted={this.props.voted} />
+          <Header size={'large'} textAlign={'center'}>{this.props.voted ? 'Your stance: '+ this.props.voted.view.description : `Click a stance to declare your position on this issue`}</Header><br></br>
         </Grid.Column>
+        <Grid.Column width={6}>
+          <Header attached='top'> All Views </Header>
+          <ViewList handleModal={this.handleModal} views={this.props.issue.views}/>
+        </Grid.Column>
+        <Grid.Column width={10}>
+          <Doughnut getElementAtEvent ={this.handleModal} data={donutData}/>
+        </Grid.Column>
+        <VoteModal onClose={this.handleModal} open={this.state.open} issue={this.props.issue} view={this.state.view} voted={this.props.voted} />
       </Grid.Row>
 
   );}

@@ -1,4 +1,4 @@
-import { FETCH_ISSUES, LOGIN_ATTEMPT, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CREATE_USER_ATTEMPT, CREATE_USER_SUCCESS, CREATE_USER_FAILURE, FETCH_ISSUE, FETCH_USER} from './types';
+import { FETCH_ISSUES, LOGIN_ATTEMPT, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CREATE_USER_ATTEMPT, CREATE_USER_SUCCESS, CREATE_USER_FAILURE, FETCH_ISSUE, FETCH_USER, FETCH_DISTRICT} from './types';
 import Fetcher from '../fetcher'
 
 export function fetchIssues() {
@@ -11,6 +11,12 @@ export function fetchIssues() {
 export function fetchUser(id) {
   return (dispatch) => {
     Fetcher.fetchUser(id).then(user => dispatch({ type: FETCH_USER, user: user }))
+  }
+}
+
+export function fetchDistrict(id) {
+  return (dispatch) => {
+    Fetcher.fetchDistrict(id).then(district => dispatch({ type: FETCH_DISTRICT, district: district }))
   }
 }
 
@@ -36,14 +42,23 @@ export function createUser(username, password, name, email, address) {
   // console.log('here');
   return (dispatch) => {
     dispatch({ type: CREATE_USER_ATTEMPT, user: false })
-    Fetcher.createUser(username, password, name, email, address).then(user => {
-      if (user['errors']){
-        dispatch({ type: CREATE_USER_FAILURE, auth: user })
-      }else if (user['jwt']) {
-        localStorage.setItem('token', user['jwt'])
-        dispatch({ type: CREATE_USER_SUCCESS, user: user })
+    Fetcher.fetchDistrictInfo(address).then(info => {
+      // debugger
+      if (info[0]) {
+        let district = {state: info[0].components.state_abbreviation, cdid: info[0].metadata.congressional_district}
+        Fetcher.createUser(username, password, name, email, address, district).then(user => {
+          if (user['errors']){
+            dispatch({ type: CREATE_USER_FAILURE, auth: user })
+          }else if (user['jwt']) {
+            localStorage.setItem('token', user['jwt'])
+            dispatch({ type: CREATE_USER_SUCCESS, user: user })
+          }
+        })
+      }else {
+        dispatch({ type: CREATE_USER_FAILURE, auth: {errors:{address: ['Invalid Address']}} })
       }
     })
+
   }
 }
 

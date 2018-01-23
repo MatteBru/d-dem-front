@@ -41,14 +41,18 @@ class Fetcher {
     return fetch(baseURL + '/users/' + id).then(res => res.json())
   }
 
-  static createUser = (username, password, name, email, address) => {
+  static fetchDistrict = (id) => {
+    return fetch(baseURL + '/districts/' + id).then(res => res.json())
+  }
+
+  static createUser = (username, password, name, email, address, district) => {
     let options = {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({user: {username, password, name, email, address}})
+      body: JSON.stringify({user: {username, password, name, email, address}, district: district})
     }
     return fetch(baseURL + '/users', options).then(res => res.json())
   }
@@ -58,7 +62,8 @@ class Fetcher {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token')
       },
       body: JSON.stringify({stance: stance})
     }
@@ -67,6 +72,11 @@ class Fetcher {
 
   static fetchSuggestions = (text) => {
     return fetch('https://us-autocomplete.api.smartystreets.com/suggest?auth-id=efd99d92-72e7-a941-f6e8-ffcc15cd4cf2&auth-token=4AyyNrG0vSIf3j3OtVUo&prefix=' + text).then(res => res.json())
+  }
+
+  static fetchDistrictInfo = address => {
+    return fetch('https://us-street.api.smartystreets.com/street-address?auth-id=efd99d92-72e7-a941-f6e8-ffcc15cd4cf2&auth-token=4AyyNrG0vSIf3j3OtVUo&street=' + address)
+    .then(res => res.json())
   }
 
   static fetchIssue = (id) => {

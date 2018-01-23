@@ -18,7 +18,7 @@ const UserDropdown = props => {
           <Dropdown.Menu>
             <Dropdown.Header>Categories</Dropdown.Header>
             <Dropdown.Item onClick={() => props.history.push('/users/' + props.user.id)}>My Profile</Dropdown.Item>
-            <Dropdown.Item>My District</Dropdown.Item>
+            <Dropdown.Item onClick={() => props.history.push('/districts/' + props.user.district_id)}>My District</Dropdown.Item>
             <Dropdown.Item onClick={() => props.logoutUser(props.history)}>Log Out</Dropdown.Item>
 
           </Dropdown.Menu>

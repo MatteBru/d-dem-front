@@ -10,7 +10,7 @@ import * as actions from '../actions'
 
 
 
-const IssueList = props => {
+const IssueListItem = props => {
 
   const date = new Date(props.issue.created_at)
   const dateString = date.toLocaleString()
@@ -47,4 +47,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default withRouter(connect(mapStateToProps, actions)(IssueList));
+export default withRouter(connect(mapStateToProps, actions)(IssueListItem));

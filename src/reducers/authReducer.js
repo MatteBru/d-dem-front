@@ -1,9 +1,10 @@
-import {LOGIN_ATTEMPT, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CREATE_USER_SUCCESS, CREATE_USER_FAILURE} from '../actions/types';
+import {LOGIN_ATTEMPT, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CREATE_USER_SUCCESS, CREATE_USER_FAILURE, CREATE_USER_ATTEMPT} from '../actions/types';
 
 const authReducer = (state = {fetching: false, authed: false, creds: {errors:{}}}, action) => {
   switch (action.type) {
+    case CREATE_USER_ATTEMPT:
     case LOGIN_ATTEMPT:
-      return {fetching: true, authed: false, creds: null}
+      return {fetching: true, authed: false, creds: {errors:{}}}
     case CREATE_USER_SUCCESS:
     case LOGIN_SUCCESS:
       return {fetching: false, authed: true, message: "good job, you're not trash", creds: action.user.jwt};

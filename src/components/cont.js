@@ -15,7 +15,6 @@ import * as actions from '../actions';
 class Cont extends React.Component{
 
   componentDidMount() {
-    this.props.fetchIssues()
     this.props.getCurrentUser()
   }
 
@@ -23,12 +22,12 @@ class Cont extends React.Component{
   render() {
     return (
       <Grid.Row color={'blue'}>
-        <Grid.Column width={10}>
+        <Grid.Column width={16}>
 
-            <Menu color={'blue'} inverted stackable>
+            <Menu fluid float={'left'} color={'blue'} inverted stackable>
                <Menu.Item >
                  <Link to={'/'}>
-                   <Header color={'yellow'} size={'huge'}>Direct Democracy</Header>
+                   <Header size={'huge'}>Direct Democracy</Header>
                  </Link>
                </Menu.Item>
                <UserDropdown />
