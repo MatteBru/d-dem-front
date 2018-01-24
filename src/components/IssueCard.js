@@ -18,7 +18,7 @@ const IssueListItem = props => {
 
 
   return (
-    <Item >
+    <Card >
       <Statistic size={'tiny'} floated='left'>
         <Statistic.Value>{props.issue.votes}</Statistic.Value>
         <Statistic.Label>Votes</Statistic.Label><br></br>
@@ -36,7 +36,7 @@ const IssueListItem = props => {
           <Label icon='globe' content={props.issue.category} />
         </Item.Extra>
       </Item.Content>
-    </Item>
+    </Card>
 
   );
 };

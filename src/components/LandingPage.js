@@ -14,12 +14,20 @@ class LandingPage extends React.Component {
   render(){
     return(
       <div style={{ minHeight: window.innerHeight}}className={'landingWrapper'}>
+        <img id='icon' src='/logo.png' />
         <div id={'landing-text'}>
-          <h1 id={'landing-title'}>Direct Democracy</h1>
-          <p id={'landing-para'}>Is the idea that the direction of the state should be in the hands of the people.</p>
-          <Button onClick={(e) => {this.props.history.push('/issues')}} positive>
-            Show Me The Issues
-          </Button>
+
+          <h1 id={'landing-title'}>Light a Fire Under Your Representatives</h1>
+
+          <p id={'landing-para'}>
+            Direct Democracy is the notion that the direction of government should be determined directly by its people. Although this is not the American system, we believe that the people of this nation could do with a little more say.
+          </p>
+
+          <div id='landing-button-container'>
+            <Button id={'landing-button'} onClick={(e) => {this.props.history.push('/issues')}} positive>
+              Make Your Voice Heard
+            </Button>
+          </div>
         </div>
       </div>
     )

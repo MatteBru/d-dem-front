@@ -13,17 +13,14 @@ const UserDropdown = props => {
 
   return (
     <Menu.Item>
-      {!props.fetching && props.loggedIn ?
-        <Dropdown text={props.user.username} pointing className='link'>
+
+        <Dropdown style={{'font-size':'1.5em'}} text={props.user.username} pointing className='link'>
           <Dropdown.Menu>
-            <Dropdown.Header>Categories</Dropdown.Header>
             <Dropdown.Item onClick={() => props.history.push('/users/' + props.user.id)}>My Profile</Dropdown.Item>
             <Dropdown.Item onClick={() => props.history.push('/districts/' + props.user.district_id)}>My District</Dropdown.Item>
-            <Dropdown.Item onClick={() => props.logoutUser(props.history)}>Log Out</Dropdown.Item>
 
           </Dropdown.Menu>
-        </Dropdown> :
-        <LoginModal trigger={<div>LogIn</div>}/>}
+        </Dropdown>
     </Menu.Item>
   );
 };

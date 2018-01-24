@@ -43,7 +43,7 @@ class IssueContainer extends React.Component{
 const mapStateToProps = state => ({
   issues: state.issues,
   loggedIn: state.auth.authed,
-  user: state.user,
+  user: state.user.authedUser,
   fetching: state.auth.fetching
 });
 

@@ -19,6 +19,7 @@ import UserShow from './UserShow'
 import DistrictShow from './DistrictShow'
 import LandingPage from './LandingPage'
 import '../LandingPage.css'
+import LoginModal from './LoginModal'
 
 import * as actions from '../actions';
 
@@ -35,16 +36,22 @@ class Cont extends React.Component{
       <Grid centered columns={16}>
         <Grid.Row color={'blue'}>
           <Grid.Column width={16}>
-              <Menu fluid float={'left'} color={'blue'} inverted stackable>
+              <Menu borderless style={{'paddingRight': '2em'}} fluid float={'left'} color={'blue'} inverted stackable>
                  <Menu.Item >
                    <Link to={'/issues'}>
-                     <Header size={'huge'}style={{'font-family': 'dollar', color:'white'}}>Direct Democracy</Header>
+                     <img src='/dd-white.png' style={{maxHeight: '4em', 'marginBottom': '-1.5em', 'marginTop': '-0.25em'}}></img>
                    </Link>
                  </Menu.Item>
-                 <UserDropdown />
-                 <Menu.Item>
+                 {this.props.loggedIn ? <UserDropdown />: null}
+
+                 <Menu.Item link style={{'fontSize':'1.5em'}}>
                    <CreateIssueModal />
                  </Menu.Item>
+                   {this.props.loggedIn ?
+                     <Menu.Item style={{'fontSize':'1.5em'}} link onClick={() => this.props.logoutUser(this.props.history)} position={'right'}>
+                       Log Out
+                     </Menu.Item>
+                   : <Menu.Item style={{'fontSize':'1.5em'}} link position={'right'} ><LoginModal trigger={<div>Log In</div>}/></Menu.Item>}
               </Menu>
           </Grid.Column>
         </Grid.Row>
@@ -62,7 +69,8 @@ class Cont extends React.Component{
 
 
 const mapStateToProps = state => ({
-  issues: state.issues
+  issues: state.issues,
+  loggedIn: state.auth.authed
 });
 
 export default withRouter(connect(mapStateToProps, actions)(Cont));
