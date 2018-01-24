@@ -1,4 +1,4 @@
-import { FETCH_ISSUES, FETCH_ISSUE, CREATE_STANCE } from '../actions/types';
+import { FETCH_ISSUES, FETCH_ISSUE, CREATE_STANCE, CREATE_ISSUE } from '../actions/types';
 
 const issueReducer = (state = {hot: [], new: [], top: [], current: {views:[]}}, action) => {
   switch (action.type) {
@@ -8,6 +8,8 @@ const issueReducer = (state = {hot: [], new: [], top: [], current: {views:[]}}, 
     case FETCH_ISSUE:
       return {...state ,current: action.issue}
     case CREATE_STANCE:
+      return {...state ,current: action.issue}
+    case CREATE_ISSUE:
       return {...state ,current: action.issue}
     default:
       return state

@@ -57,6 +57,19 @@ class Fetcher {
     return fetch(baseURL + '/users', options).then(res => res.json())
   }
 
+  static createIssue = (issue) => {
+    let options = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token')
+      },
+      body: JSON.stringify({issue: issue})
+    }
+    return fetch(baseURL + '/issues', options).then(res => res.json())
+  }
+
   static createStance = (stance) => {
     let options = {
       method: 'POST',

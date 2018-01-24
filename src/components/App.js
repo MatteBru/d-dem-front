@@ -8,7 +8,7 @@ import IssueContainer from './IssueContainer';
 import IssueShow from './IssueShow'
 import UserShow from './UserShow'
 import DistrictShow from './DistrictShow'
-
+import LandingPage from './LandingPage'
 
 
 class App extends Component {
@@ -18,15 +18,12 @@ class App extends Component {
   // }
   render() {
     return (
-      <Grid centered columns={16}>
-          <Cont />
+
           <Switch>
-            <Route path="/districts/:id" component={DistrictShow} />
-            <Route path="/users/:id" component={UserShow} />
-            <Route path="/issues/:id" component={IssueShow} />
-            <Route path="/" component={IssueContainer} />
+            <Route exact path="/" component={LandingPage} />
+            <Route component={Cont} />
           </Switch>
-      </Grid>
+
     );
   }
 }

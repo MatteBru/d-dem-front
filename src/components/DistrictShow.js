@@ -6,7 +6,7 @@ import { Grid } from 'semantic-ui-react'
 import { Header } from 'semantic-ui-react'
 // import IssueList from './IssueList'
 import {withRouter} from 'react-router'
-import {Scatter} from 'react-chartjs-2';
+import {Scatter, Bubble} from 'react-chartjs-2';
 
 
 
@@ -48,7 +48,7 @@ class DistrictShow extends React.Component {
     const scatterData = {
       datasets: [{
           label: 'My Issues',
-          data: this.props.district.issues.map(i => {return {x: i.district_attitude, y: i.district_importance}}),
+          data: this.props.district.issues.map(i => {return {x: i.district_attitude, y: i.district_importance, r: i.district_votes*5}}),
           backgroundColor: '#ff6384',
           radius: 10,
           pointStyle: 'circle',
@@ -64,6 +64,13 @@ class DistrictShow extends React.Component {
     const scatterOptions = {
       tooltips: {
          callbacks: {
+
+            title: (tooltipItem, data) => {
+
+              var label = data.labels[tooltipItem[0].index];
+              // console.log(label, tooltipItem, data);
+              return [label[0]]
+            },
             label: (tooltipItem, data) => {
                var label = data.labels[tooltipItem.index];
                return [label[0], this.toAttitude(tooltipItem.xLabel) ,this.toImportance(tooltipItem.yLabel)];
@@ -79,7 +86,8 @@ class DistrictShow extends React.Component {
                   return this.toImportance(value);
               },
               min: 1,
-              max: 5
+              max: 5,
+              stepSize: 1
           }
       }],
       xAxes: [{
@@ -90,7 +98,8 @@ class DistrictShow extends React.Component {
                 return this.toAttitude(value);
             },
             min: 1,
-            max: 5
+            max: 5,
+            stepSize: 1
         }
     }]
   }
@@ -118,7 +127,7 @@ class DistrictShow extends React.Component {
       <Grid.Row>
         <Grid.Column width={12}>
           <Header size={'huge'} textAlign={'center'}>Summary for {this.props.district.state} district {this.props.district.cdid}</Header>
-          <Scatter getElementAtEvent ={this.handleClick} options={scatterOptions} data={scatterData}/>
+          <Bubble getElementAtEvent ={this.handleClick} options={scatterOptions} data={scatterData}/>
         </Grid.Column>
       </Grid.Row>
 

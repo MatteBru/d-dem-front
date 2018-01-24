@@ -32,52 +32,18 @@ class VoteModal extends React.Component {
 
   onClose = () => {
     this.setState({view: 'vote'})
-    this.props.onClose()
+    this.props.onClose
 
   }
 
-
-
-  // render() {
-  //   const { rating } = this.state
-  //
-  //   return (
-  //     <div>
-  //       <div>Rating: {rating}</div>
-  //       <input type='range' min={0} max={5} value={rating} onChange={this.handleChange} />
-  //       <br />
-  //       <Rating rating={this.state.rating} maxRating={5} />
-  //     </div>
-  //   )
-  // }
 
   render() {
     console.log(this.state);
     const content = () => {
       if (!this.props.fetching && this.props.loggedIn) {
-        if (this.state.view === 'vote') {
-          return (
-            <Modal onClose={this.onClose} open={this.props.open}>
-              <Modal.Header >
-                <Header as={"h1"}>Q: {this.props.issue.title}</Header>
-                <Header as={"h1"}>A: {this.props.view.description}</Header>
-                {this.props.voted ? <Header color={'red'} as={'h4'}>This will overwrite your previous stance of: '{this.props.voted.view.description}'</Header> : null}
-              </Modal.Header>
-              <Modal.Content>
-                <Modal.Description>
-                  <Header>
-                    Take this stance, or <a onClick={this.changeView}>create your own.</a>{" "}
-                  </Header>
-                  <br />
-
-                  <VoteForm closeModal={this.props.onClose} issue={this.props.issue} view={this.props.view} />
-                </Modal.Description>
-              </Modal.Content>
-            </Modal>
-          )
-        }else{
-          return (
-            <Modal onClose={this.onClose} open={this.props.open}>
+        if (this.props.view === 'new' || this.state.view === 'create') {
+          return(
+            <Modal onClose={this.props.onClose} open={this.props.open}>
               <Modal.Header >
                 <Header as={"h1"}>Q: {this.props.issue.title}</Header>
                 <Header as={"h1"}>A: Create your new view below...</Header>
@@ -95,10 +61,31 @@ class VoteModal extends React.Component {
               </Modal.Content>
             </Modal>
           )
+
+        }else {
+          return (
+            <Modal onClose={this.props.onClose} open={this.props.open}>
+              <Modal.Header >
+                <Header as={"h1"}>Q: {this.props.issue.title}</Header>
+                <Header as={"h1"}>A: {this.props.view.description}</Header>
+                {this.props.voted ? <Header color={'red'} as={'h4'}>This will overwrite your previous stance of: '{this.props.voted.view.description}'</Header> : null}
+              </Modal.Header>
+              <Modal.Content>
+                <Modal.Description>
+                  <Header>
+                    Take this stance, or <a onClick={this.changeView}>create your own.</a>{" "}
+                  </Header>
+                  <br />
+
+                  <VoteForm closeModal={this.props.onClose} issue={this.props.issue} view={this.props.view} />
+                </Modal.Description>
+              </Modal.Content>
+            </Modal>
+          )
         }
       } else {
         return (
-          <Modal onClose={this.onClose} open={this.props.open}>
+          <Modal onClose={this.props.onClose} open={this.props.open}>
             <Modal.Header>
               Sorry, You Must <LoginModal trigger={<a>Log in</a>} /> to Vote,
               Submit Issues, or Create Stances

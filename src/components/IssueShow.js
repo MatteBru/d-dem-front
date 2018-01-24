@@ -32,7 +32,9 @@ class IssueShow extends React.Component {
   handleModal = (e) => {
     if (!this.state.open && e.view) {
       this.setState({open: true, view: e.view})
-    } else if (!this.state.open && e.length > 0) {
+    } else if (e === 'new') {
+      this.setState({open: true, view: e})
+    }else if (!this.state.open && e.length > 0) {
       this.setState({open: true, view: this.props.issue.views[e[0]._index]})
     }else{
       this.setState({open: false})
@@ -71,13 +73,31 @@ class IssueShow extends React.Component {
     // const d = <Doughnut onClick={console.log()}data={donutData}/>
     // console.log(this.props);
 
+    const content = () => {
+      if (!this.props.issue.views[0]) {
+         return(
+         <Grid.Column width={16}>
+           <Header size={'huge'} textAlign={'center'}>{this.props.issue.title}</Header>
+           <Header color={'green'} size={'large'} textAlign={'center'}><a onClick={() => this.handleModal('new')}>Nobody Has Declared a Stance Yet. Be The First!</a> </Header>
+
+          </Grid.Column>
+           )
+      } else {
+        return(
+
+          <Grid.Column width={16}>
+            <Header size={'huge'} textAlign={'center'}>{this.props.issue.title}</Header>
+            <Header size={'large'} textAlign={'center'}>{this.props.voted ? 'Your stance: '+ this.props.voted.view.description : `Click a stance to declare your position on this issue`}</Header><br></br>
+          </Grid.Column>
+
+        )
+      }
+    }
+
 
     return (
       <Grid.Row>
-        <Grid.Column width={16}>
-          <Header size={'huge'} textAlign={'center'}>{this.props.issue.title}</Header>
-          <Header size={'large'} textAlign={'center'}>{this.props.voted ? 'Your stance: '+ this.props.voted.view.description : `Click a stance to declare your position on this issue`}</Header><br></br>
-        </Grid.Column>
+        {content()}
         <Grid.Column width={6}>
           <Header attached='top'> All Views </Header>
           <ViewList handleModal={this.handleModal} views={this.props.issue.views}/>
@@ -86,8 +106,7 @@ class IssueShow extends React.Component {
           <Doughnut getElementAtEvent ={this.handleModal} data={donutData}/>
         </Grid.Column>
         <VoteModal onClose={this.handleModal} open={this.state.open} issue={this.props.issue} view={this.state.view} voted={this.props.voted} />
-      </Grid.Row>
-
+    </Grid.Row>
   );}
 };
 

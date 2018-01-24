@@ -1,4 +1,4 @@
-import { FETCH_ISSUES, LOGIN_ATTEMPT, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CREATE_USER_ATTEMPT, CREATE_USER_SUCCESS, CREATE_USER_FAILURE, FETCH_ISSUE, FETCH_USER, FETCH_DISTRICT} from './types';
+import { FETCH_ISSUES, LOGIN_ATTEMPT, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CREATE_USER_ATTEMPT, CREATE_USER_SUCCESS, CREATE_USER_FAILURE, FETCH_ISSUE, FETCH_USER, FETCH_DISTRICT, CREATE_STANCE, CREATE_ISSUE} from './types';
 import Fetcher from '../fetcher'
 
 export function fetchIssues() {
@@ -88,7 +88,20 @@ export function createStance(stance){
         // dispatch({type: 'CREATE_STANCE', stance: stance})
         // dispatch({type: , stance: stance})
 
-        dispatch({type: 'CREATE_STANCE', user: res.user, issue: res.issue})
+        dispatch({type: CREATE_STANCE, user: res.user, issue: res.issue})
+      })
+    }
+}
+
+export function createIssue(issue, history) {
+  return (dispatch) => {
+      Fetcher.createIssue(issue).then(issue => {
+        console.log(issue);
+        // dispatch({type: 'CREATE_STANCE', stance: stance})
+        // dispatch({type: , stance: stance})
+        // debugger
+        history.push('/issues/' + issue.id)
+        dispatch({type: CREATE_ISSUE, issue: issue})
       })
     }
 }

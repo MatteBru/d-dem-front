@@ -13,3 +13,4 @@ export const FETCH_USER = 'FETCH_USER';
 export const FETCH_ISSUE = 'FETCH_ISSUE';
 export const CREATE_STANCE = 'CREATE_STANCE';
 export const FETCH_DISTRICT = 'FETCH_DISTRICT';
+export const CREATE_ISSUE = 'CREATE_ISSUE';
