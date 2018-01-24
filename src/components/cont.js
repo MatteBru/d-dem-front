@@ -18,7 +18,7 @@ import IssueShow from './IssueShow'
 import UserShow from './UserShow'
 import DistrictShow from './DistrictShow'
 import LandingPage from './LandingPage'
-
+import '../LandingPage.css'
 
 import * as actions from '../actions';
 
@@ -37,8 +37,8 @@ class Cont extends React.Component{
           <Grid.Column width={16}>
               <Menu fluid float={'left'} color={'blue'} inverted stackable>
                  <Menu.Item >
-                   <Link to={'/'}>
-                     <Header size={'huge'}>Direct Democracy</Header>
+                   <Link to={'/issues'}>
+                     <Header size={'huge'}style={{'font-family': 'dollar', color:'white'}}>Direct Democracy</Header>
                    </Link>
                  </Menu.Item>
                  <UserDropdown />

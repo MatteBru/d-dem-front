@@ -99,7 +99,7 @@ class IssueShow extends React.Component {
       <Grid.Row>
         {content()}
         <Grid.Column width={6}>
-          <Header attached='top'> All Views </Header>
+          <Header divided textAlign={'center'} size={'large'}> All Views </Header>
           <ViewList handleModal={this.handleModal} views={this.props.issue.views}/>
         </Grid.Column>
         <Grid.Column width={10}>
