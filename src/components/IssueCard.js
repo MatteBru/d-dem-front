@@ -18,24 +18,25 @@ const IssueListItem = props => {
 
 
   return (
-    <Card >
-      <Statistic size={'tiny'} floated='left'>
+    <Card style={{backgroundColor:'#eaeaea'}} link >
+      <Statistic onClick={() => props.history.push(`/issues/${props.issue.id}`)} style={{paddingTop:'5%'}} size={'small'} floated='left'>
         <Statistic.Value>{props.issue.votes}</Statistic.Value>
         <Statistic.Label>Votes</Statistic.Label><br></br>
-        {props.loggedIn && props.voted.find(i => i.issue.id === props.issue.id) ? <Container color={'green'} fluid textAlign={'center'}><Icon name={'checkmark box'} size={'large'} color='green'/>
-      You've Voted</Container> : <Container color={'red'} fluid textAlign={'center'}><Icon name={'remove'} size={'large'} color='red'/>
-    No Vote Yet</Container>}
+        {props.loggedIn && props.voted.find(i => i.issue.id === props.issue.id) ? <Container color={'green'} fluid textAlign={'center'}><Icon name={'checkmark box'} size={'large'} color='green'/><br/>
+      You've Voted</Container> : <Container color={'red'} fluid textAlign={'center'}><Icon name={'remove'} size={'big'} color='red'/><br/>
+    You Have Not Voted On This Issue Yet</Container>}
       </Statistic>
-      <Item.Content floated='right'>
-        <Item.Header onClick={() => props.history.push(`/issues/${props.issue.id}`)} size={'huge'} as='a'>{props.issue.title}</Item.Header>
-        <Item.Meta>
+      <Card.Content>
+        <Card.Header onClick={() => props.history.push(`/issues/${props.issue.id}`)} size={'huge'} as='a'>{props.issue.title}</Card.Header>
+        <Card.Meta>
           <span className='cinema'>Submitted {dateString} by <Link to={'/users/' + props.issue.creator.id}>{props.issue.creator.username}</Link></span>
-        </Item.Meta>
-        <Item.Description>{props.issue.blurb}</Item.Description>
-        <Item.Extra>
-          <Label icon='globe' content={props.issue.category} />
-        </Item.Extra>
-      </Item.Content>
+        </Card.Meta>
+        <Card.Description>{props.issue.blurb}</Card.Description>
+
+      </Card.Content>
+      <Card.Content extra>
+        <Label icon='globe' content={props.issue.category} />
+      </Card.Content>
     </Card>
 
   );

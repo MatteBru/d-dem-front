@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import * as actions from '../actions';
 import { Grid } from 'semantic-ui-react'
-import { Header } from 'semantic-ui-react'
+import { Header, Button } from 'semantic-ui-react'
 // import IssueList from './IssueList'
 import {withRouter} from 'react-router'
 import {Scatter, Bubble} from 'react-chartjs-2';
@@ -71,12 +71,38 @@ class DistrictShow extends React.Component {
               // console.log(label, tooltipItem, data);
               return [label[0]]
             },
+            afterTitle: (tooltipItem, data) => {
+              return this.toAttitude(tooltipItem.xLabel)
+            },
             label: (tooltipItem, data) => {
                var label = data.labels[tooltipItem.index];
-               return [label[0], this.toAttitude(tooltipItem.xLabel) ,this.toImportance(tooltipItem.yLabel)];
+               return [this.toAttitude(tooltipItem.xLabel) ,this.toImportance(tooltipItem.yLabel)];
             }
          }
       },
+      // "tooltips": {
+      // "enabled": false,
+      // "mode": "x",
+      // "intersect": false,
+      // "custom": (tooltipModel) => {
+      //   // hide the tooltip
+      //   if (tooltipModel.opacity === 0) {
+      //     this.hide();
+      //     return;
+      //   }
+      //
+      //   const position = this.refs.chart.chart_instance.canvas.getBoundingClientRect();
+      //
+      //   // set position of tooltip
+      //   const left = position.left + tooltipModel.caretX;
+      //   const top = position.top + tooltipModel.caretY;
+      //
+      //   // set values for display of data in the tooltip
+      //   const date = tooltipModel.dataPoints[0].xLabel;
+      //   const value = tooltipModel.dataPoints[0].yLabel;
+      //
+      //   this.setPositionAndData({top, left, date, value});
+      // }},
       scales: {
         yAxes: [{
           scaleLabel: {display: true, labelString: 'Importance', fontStyle: 'bold', fontSize: 18},
@@ -126,8 +152,8 @@ class DistrictShow extends React.Component {
     return (
       <Grid.Row>
         <Grid.Column width={12}>
-          <Header size={'huge'} textAlign={'center'}>Summary for {this.props.district.state} district {this.props.district.cdid}</Header>
-          <Bubble getElementAtEvent ={this.handleClick} options={scatterOptions} data={scatterData}/>
+          <Header size={'huge'} textAlign={'center'}>Summary for {this.props.district.state} district {this.props.district.cdid}<br></br> <Button positive onClick={() => window.open(`https://gvrn.herokuapp.com/representatives/${this.props.district.rep}`)}>See Your Rep on GVRN</Button></Header>
+          <Bubble ref={'chart'} getElementAtEvent ={this.handleClick} options={scatterOptions} data={scatterData}/>
         </Grid.Column>
       </Grid.Row>
 

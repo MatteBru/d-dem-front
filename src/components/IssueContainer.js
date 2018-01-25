@@ -31,7 +31,7 @@ class IssueContainer extends React.Component{
       <Grid.Column width={12}>
         <div>
           {!this.props.fetching && this.props.loggedIn ? <h1>Welcome, {this.props.user.username}</h1> : <h1>Log in, or don't, I'm a web app not a cop. </h1>}
-          <Tab panes={panes} />
+          <Tab  panes={panes} />
         </div>
       </Grid.Column>
     </Grid.Row>

@@ -46,10 +46,13 @@ class IssueShow extends React.Component {
     const donutData = {
       datasets: [{
           data: this.props.issue.views.map(v => v.votes),
-          backgroundColor: ['#ff6384',
-                            '#36a2eb',
-                            '#cc65fe',
-                            '#ffce56']
+          backgroundColor: ['#EF476F',
+                            '#3C91E6',
+                            '#FA7921',
+                            '#995FA3',
+                            '#FFD447',
+                            '#7FD1B9',
+                            '#7A306C']
                 }],
 
       labels: this.props.issue.views.map(v => v.description)
