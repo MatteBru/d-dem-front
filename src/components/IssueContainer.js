@@ -23,7 +23,7 @@ class IssueContainer extends React.Component{
     const panes = [
       { menuItem: 'Top Issues', render: () => <Tab.Pane><IssueList  issues={this.props.issues.top}/></Tab.Pane> },
       { menuItem: 'New Issues', render: () => <Tab.Pane><IssueList  issues={this.props.issues.new}/></Tab.Pane> },
-      { menuItem: 'Hot Issues', render: () => <Tab.Pane><IssueList  issues={this.props.issues.hot}/></Tab.Pane> },
+      { menuItem: 'Hot Issues (24h)', render: () => <Tab.Pane><IssueList  issues={this.props.issues.hot}/></Tab.Pane> },
     ]
 
     return (
