@@ -34,7 +34,7 @@ class DistrictShow extends React.Component {
   }
 
   toAttitude(num){
-    const impArray = ["Against", ["Generally Against,", "w/ Some Caveats"], "Neutral", ["Generally For,", "w/ Some Caveats"], "For"]
+    const impArray = ["Against", ["Generally Against", " w/ Some Caveats"], "Neutral", ["Generally For", " w/ Some Caveats"], "For"]
     return impArray[Math.round(num - 1)]
   }
 
@@ -71,9 +71,7 @@ class DistrictShow extends React.Component {
               // console.log(label, tooltipItem, data);
               return [label[0]]
             },
-            afterTitle: (tooltipItem, data) => {
-              return this.toAttitude(tooltipItem.xLabel)
-            },
+            
             label: (tooltipItem, data) => {
                var label = data.labels[tooltipItem.index];
                return [this.toAttitude(tooltipItem.xLabel) ,this.toImportance(tooltipItem.yLabel)];

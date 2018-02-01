@@ -24,7 +24,7 @@ class IssueForm extends React.Component {
   //   console.log(this.state);
   // }
 
-  state = { fields: {title: '', category: ''} }
+  state = { fields: {title: '', category: ''}, errors: [] }
 
   // toImportance(num){
   //   const impArray = ["Totally Unimportant", "Non-Priority", "Neutral", "Priority", "Most Important"]
@@ -42,8 +42,12 @@ class IssueForm extends React.Component {
   }
 
   handleSubmit = (e) => {
-     this.props.createIssue({creator_id: this.props.user.id, title: this.state.fields.title + '?', category: this.state.fields.category}, this.props.history)
-     this.props.onClose()
+    if (this.state.fields.title < 1) {
+      this.setState({errors: ["Issue can't be blank!"]})
+    } else {
+      this.props.createIssue({creator_id: this.props.user.id, title: this.state.fields.title + '?', category: this.state.fields.category}, this.props.history)
+      this.props.onClose()
+    }
    };
 
   // handleRate = (rating, name) => {
@@ -55,10 +59,11 @@ class IssueForm extends React.Component {
              <Form onSubmit={this.handleSubmit}>
                 <Form.Field>
                  <Input labelPosition={'right'} name={'title'} value={this.state.fields.title} onChange={this.handleChange} placeholder={'Question mark will be included -->'}>
-                   <Label>Phrase your issue as a question:</Label>
+                   <Label>Phrase your issue as a yes or no question:</Label>
                    <input/>
                    <Label basic>?</Label>
                  </Input>
+                 {this.state.errors[0] ? <Label basic color='red' pointing>{this.state.errors[0]}</Label> : null}
                </Form.Field>
                <Form.Field>
                  <Input label={'Category:'} name={'category'} value={this.state.fields.category} onChange={this.handleChange} placeholder={'Categorize your issue (e.g. Immigration)'}/>

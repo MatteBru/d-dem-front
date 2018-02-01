@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import * as actions from '../actions';
-import { Button, Header, Modal, Rating, Form, Input, Grid} from 'semantic-ui-react'
+import { Button, Header, Modal, Rating, Form, Input, Grid, Label} from 'semantic-ui-react'
 
 import LoginModal from './LoginModal'
 import Signup from './Signup'
@@ -23,7 +23,7 @@ class VoteForm extends React.Component {
   //   console.log(this.state);
   // }
 
-  state = { fields: {importance: 1, attitude: 1, description: ''} }
+  state = { fields: {importance: 1, attitude: 1, description: ''}, errors: []}
 
   toImportance(num){
     const impArray = ["Totally Unimportant", "Non-Priority", "Neutral", "Priority", "Most Important"]
@@ -41,8 +41,13 @@ class VoteForm extends React.Component {
   }
 
   handleSubmit = (e) => {
-     this.props.createStance({issue_id: this.props.issue.id, user_id: this.props.user.id, importance: this.state.fields.importance, view_id: this.props.view.id, new_view: this.props.create, description: this.state.fields.description, attitude: this.state.fields.attitude})
-     this.props.closeModal()
+    console.log('handling submit');
+    if (this.state.fields.description.length < 1 && this.props.create) {
+      this.setState({errors: ["Stance can't be blank!"]})
+    } else {
+      this.props.createStance({issue_id: this.props.issue.id, user_id: this.props.user.id, importance: this.state.fields.importance, view_id: this.props.view.id, new_view: this.props.create, description: this.state.fields.description, attitude: this.state.fields.attitude})
+      this.props.closeModal()
+    }
    };
 
   handleRate = (rating, name) => {
@@ -59,6 +64,7 @@ class VoteForm extends React.Component {
                        <Form.TextArea name={'description'} value={this.state.fields.description} onChange={this.handleChange} placeholder={'Describe your position on this issue...'}>
 
                        </Form.TextArea>
+                       {this.state.errors[0] ? <Label basic color='red' pointing>{this.state.errors[0]}</Label> : null}
                      </Form.Field>
                      <Form.Field>
                        <label>Is your stance for or against the issue?</label>

@@ -15,6 +15,7 @@ class LoginModal extends React.Component {
 
   changeView = (e) => {
     e.preventDefault()
+    this.props.clearErrors()
     if (this.state.view === 'login') {
       this.setState({view: 'signup'})
     } else {

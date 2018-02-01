@@ -64,9 +64,15 @@ class UserShow extends React.Component {
     const scatterOptions = {
       tooltips: {
          callbacks: {
+           title: (tooltipItem, data) => {
+
+             var label = data.labels[tooltipItem[0].index];
+             // console.log(label, tooltipItem, data);
+             return [label[0]]
+           },
             label: (tooltipItem, data) => {
                var label = data.labels[tooltipItem.index];
-               return [label[0], label[1], this.toImportance(tooltipItem.yLabel)];
+               return [ label[1], this.toImportance(tooltipItem.yLabel)];
             }
          }
       },

@@ -1,5 +1,5 @@
-const baseURL = "http://localhost:3000"
-// const baseURL = "https://www.heroku.com/dirct-dem0cracy"
+// const baseURL = "http://localhost:3000"
+const baseURL = "https://dirct-dem0cracy.herokuapp.com"
 class Fetcher {
 
   // static baseURL = () => ("http://localhost:3000")
@@ -30,7 +30,7 @@ class Fetcher {
   }
 
   static fetchIssues = () => {
-    // console.log(baseURL + '/issues');
+    console.log(baseURL + '/issues');
     return fetch(baseURL + '/issues').then(res => res.json())
   }
 
@@ -90,7 +90,7 @@ class Fetcher {
 
   static fetchDistrictInfo = address => {
     return fetch('https://us-street.api.smartystreets.com/street-address?auth-id=efd99d92-72e7-a941-f6e8-ffcc15cd4cf2&auth-token=4AyyNrG0vSIf3j3OtVUo&street=' + address)
-    .then(res => res.json())
+    .then(res => {if(res.status == 400){return []} else{return res.json()}})
   }
 
   static fetchIssue = (id) => {

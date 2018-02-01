@@ -1,4 +1,4 @@
-import { FETCH_ISSUES, LOGIN_ATTEMPT, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CREATE_USER_ATTEMPT, CREATE_USER_SUCCESS, CREATE_USER_FAILURE, FETCH_ISSUE, FETCH_USER, FETCH_DISTRICT, CREATE_STANCE, CREATE_ISSUE} from './types';
+import { FETCH_ISSUES, LOGIN_ATTEMPT, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CREATE_USER_ATTEMPT, CREATE_USER_SUCCESS, CREATE_USER_FAILURE, FETCH_ISSUE, FETCH_USER, FETCH_DISTRICT, CREATE_STANCE, CREATE_ISSUE, CLEAR_ERRORS} from './types';
 import Fetcher from '../fetcher'
 
 export function fetchIssues() {
@@ -59,6 +59,12 @@ export function createUser(username, password, name, email, address) {
       }
     })
 
+  }
+}
+
+export function clearErrors() {
+  return (dispatch) => {
+    dispatch({ type: CLEAR_ERRORS })
   }
 }
 
